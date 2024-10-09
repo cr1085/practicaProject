@@ -9,7 +9,7 @@ export default function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
 
     const login = (userCredentials, fromLocation) => {
-        setUser({ id: 1, name:'Jesus',email:'jesus.villarreal@cecar.edu.co', role: roles.regular }); // Simulación de inicio de sesión
+        setUser({ id: 1, name:'Jesus',email:'jesus.villarreal@cecar.edu.co',pais:'Colombia',ciudad:'Sincelejo', role: roles.regular }); // Simulación de inicio de sesión
         if (fromLocation) {
             navigate(fromLocation, { replace: true }); // Usa navigate para redirigir
         }

@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import Register from '../pages/Register';
-import AccountPage from '../pages/AccountPage';
+import AccountPage from '../pages/AccountPage/AccountPage';
 import Projects from '../pages/Projects';
 import ProjectPage from '../pages/ProjectPage';
 import UserPage from '../pages/admin/UsersPage';
