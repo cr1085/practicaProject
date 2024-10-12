@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Button } from "react-bootstrap";
 
-const CambiarContraseña = () => {
+const CambiarContraseña = ({ redirectToMenu }) => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -12,7 +13,6 @@ const CambiarContraseña = () => {
       setMessage('Las contraseñas no coinciden');
       return;
     }
-    
     // Aquí podrías hacer la llamada a la API para cambiar la contraseña
     // Si es exitosa, podrías mostrar un mensaje de éxito
     setMessage('Contraseña cambiada con éxito');
@@ -66,6 +66,18 @@ const CambiarContraseña = () => {
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
+    margin: '10px 0',
+  };
+
+  const homeButtonStyle = {
+    padding: '10px 20px',
+    fontSize: '16px',
+    backgroundColor: '#FFA500', // Color dorado más subido
+    color: 'black',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    margin: '10px 0',
   };
 
   return (
@@ -102,9 +114,10 @@ const CambiarContraseña = () => {
             required
           />
         </div>
-        <button type="submit" style={buttonStyle}>Cambiar Contraseña</button>
+        <Button type="submit" style={buttonStyle}>Cambiar Contraseña</Button>
       </form>
       {message && <p style={{ color: 'red', textAlign: 'center' }}>{message}</p>}
+      <Button onClick={() => redirectToMenu('profile')} style={homeButtonStyle}>Ir a Inicio</Button>
     </div>
   );
 };
