@@ -70,14 +70,16 @@ const CambiarContraseña = ({ redirectToMenu }) => {
   };
 
   const homeButtonStyle = {
-    padding: '10px 20px',
-    fontSize: '16px',
-    backgroundColor: '#FFA500', // Color dorado más subido
-    color: 'black',
+    width: '150px',
+    margin: '15px',
+    padding: '10px 0',
+    backgroundColor: '#FFA500', // Color amarillo-naranja
+    color: 'white',
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
-    margin: '10px 0',
+    fontSize: '16px',
+    marginBottom: '40px' // Espacio adicional debajo del botón
   };
 
   return (
@@ -117,7 +119,7 @@ const CambiarContraseña = ({ redirectToMenu }) => {
         <Button type="submit" style={buttonStyle}>Cambiar Contraseña</Button>
       </form>
       {message && <p style={{ color: 'red', textAlign: 'center' }}>{message}</p>}
-      <Button onClick={() => redirectToMenu('profile')} style={homeButtonStyle}>Ir a Inicio</Button>
+      <Button onClick={() => redirectToMenu('profile')} style={homeButtonStyle}>Ir Mi Cuenta</Button>
     </div>
   );
 };

@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button} from 'react-bootstrap';
 
 const localizer = momentLocalizer(moment);
 
-const Calendario = () => {
+const Calendario = ({ redirectToMenu }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
@@ -40,42 +40,65 @@ const Calendario = () => {
     setSelectedEvent(null);  // Limpiar selección
   };
 
-  return (
-    <div style={{ height: '500px', margin: '20px' }}>
-      <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ height: 500 }}
-        onSelectEvent={handleSelectEvent}  // Detectar clic en evento
-        messages={{
-          next: "Siguiente",
-          previous: "Anterior",
-          today: "Hoy",
-          month: "Mes",
-          week: "Semana",
-          day: "Día",
-        }}
-      />
+  const homeButtonStyle = {
+    width: '200px', // Ajuste al ancho del botón
+    margin: '20px auto', // Centrar el botón y añadir espacio
+    backgroundColor: '#FFA500', // Color amarillo-naranja
+    color: 'white',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontSize: '16px',
+    display: 'block', // Para asegurar que se centre
+  };
 
-      {selectedEvent && (
-        <Modal show={showModal} onHide={handleCloseModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>{selectedEvent.title}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <p><strong>Descripción:</strong> {selectedEvent.description}</p>
-            <p><strong>Fecha y hora:</strong> {moment(selectedEvent.start).format('LLL')} - {moment(selectedEvent.end).format('LLL')}</p>
-            <p><strong>Ubicación:</strong> {selectedEvent.location}</p>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseModal}>
-              Cerrar
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
+  const containerStyle = {
+    maxWidth: '900px', // Ancho del contenedor principal ajustado
+    margin: '0 auto',
+    padding: '20px',
+    backgroundColor: 'white',
+    borderRadius: '8px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+  };
+
+  return (
+    <div style={containerStyle}>
+      <div style={{ height: '500px', marginBottom: '20px' }}>
+        <Calendar
+          localizer={localizer}
+          events={events}
+          startAccessor="start"
+          endAccessor="end"
+          style={{ height: 450 }}
+          onSelectEvent={handleSelectEvent}  // Detectar clic en evento
+          messages={{
+            next: "Siguiente",
+            previous: "Anterior",
+            today: "Hoy",
+            month: "Mes",
+            week: "Semana",
+            day: "Día",
+          }}
+        />
+        {selectedEvent && (
+          <Modal show={showModal} onHide={handleCloseModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>{selectedEvent.title}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p><strong>Descripción:</strong> {selectedEvent.description}</p>
+              <p><strong>Fecha y hora:</strong> {moment(selectedEvent.start).format('LLL')} - {moment(selectedEvent.end).format('LLL')}</p>
+              <p><strong>Ubicación:</strong> {selectedEvent.location}</p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseModal}>
+                Cerrar
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        )}
+        <Button onClick={() => redirectToMenu('profile')} style={homeButtonStyle}>Ir Mi Cuenta</Button>
+      </div>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Button } from 'react-bootstrap'; // Importa Button desde react-bootstrap
 
-const EditarPerfil = ({ user }) => {
+const EditarPerfil = ({ user, redirectToMenu }) => { // Añadir redirectToMenu como prop
   const [emailVisibility, setEmailVisibility] = useState('visible');
   const [profileImage, setProfileImage] = useState(null);
   const [description, setDescription] = useState('');
@@ -55,6 +56,18 @@ const EditarPerfil = ({ user }) => {
     borderRadius: '4px',
     cursor: 'pointer',
     transition: 'background-color 0.3s ease',
+  };
+
+  const homeButtonStyle = {
+    width: '200px', // Ajuste al ancho del botón
+    margin: '20px auto', // Centrar el botón y añadir espacio
+    backgroundColor: '#FFA500', // Color amarillo-naranja
+    color: 'white',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontSize: '16px',
+    display: 'block', // Para asegurar que se centre
   };
 
   const handleImageChange = (event) => {
@@ -140,6 +153,7 @@ const EditarPerfil = ({ user }) => {
         <button type="submit" style={buttonStyle}>
           Guardar Cambios
         </button>
+        <Button onClick={() => redirectToMenu('profile')} style={homeButtonStyle}>Ir Mi Cuenta</Button>
       </form>
     </div>
   );

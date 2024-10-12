@@ -41,17 +41,7 @@ const AccountPage = () => {
     }
   `;
 
-  const buttonStyle = {
-    width: '150px',
-    margin: '15px',
-    padding: '10px 0',
-    backgroundColor: '#6a0dad', // Color morado vivo
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '16px',
-  };
+ 
 
   return (
     <Container fluid style={{ margin: 0, padding: 0, height: '100vh' }}>
@@ -63,22 +53,24 @@ const AccountPage = () => {
         )}
         <Col xs={12} md={isSidebarVisible ? 8 : 12} style={{ padding: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', backgroundImage: 'url(/img/cecar2.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', height: '100%' }}>
           <style>{keyframesWalk}</style>
-          <Card style={{ width: '100%', maxWidth: '800px', marginBottom: '20px', padding: '20px', boxShadow: '0 0 20px rgba(0, 0, 0, 0.2)', position: 'relative', overflow: 'hidden', borderRadius: '15px', backgroundColor: 'rgba(255, 255, 255, 0.8)' }}>
+          <Card style={{ width: '100%', maxWidth: '900px', marginBottom: '20px', padding: '20px', boxShadow: '0 0 20px rgba(0, 0, 0, 0.2)', position: 'relative', overflow: 'hidden', borderRadius: '15px', backgroundColor: 'rgba(255, 255, 255, 0.8)' }}>
             <Card.Header as="h1" style={{ backgroundColor: '#343a40', color: '#fff', textAlign: 'center', padding: '10px 0', position: 'relative', borderRadius: '15px 15px 0 0' }}>
               Mi Cuenta
-              {currentView !== 'editProfile' && (
+              {currentView === 'profile' && (
                 <div style={{ position: 'absolute', top: '10px', left: '0', width: '100%', height: '150px', overflow: 'hidden', zIndex: '0' }}>
                   <img src="/img/tumblr_npop0e6Web1tac9dxo1_1280-ezgif.com-gif-to-webp-converter.webp" alt="Mono Caminando" style={{ position: 'absolute', top: '0', width: '150px', height: '150px', animation: 'walk 10s linear infinite' }} />
                 </div>
               )}
             </Card.Header>
             <Card.Body style={{ textAlign: 'center', position: 'relative' }}>
-              { currentView === 'changePassword' ? (
+              {currentView === 'editProfile' ? (
+                <EditarPerfil redirectToMenu={toggleContent} user={user} />
+              ) : currentView === 'changePassword' ? (
                 <CambiarContraseña redirectToMenu={toggleContent} />
               ) : currentView === 'calendario' ? (
-                <Calendario />
+                <Calendario redirectToMenu={toggleContent}/>
               ) : currentView === 'notificaciones' ? (
-                <Notificaciones />
+                <Notificaciones redirectToMenu={toggleContent} />
               ) : currentView === 'mostrarContenido' ? (
                 <MostrarContenido />
               ) : (

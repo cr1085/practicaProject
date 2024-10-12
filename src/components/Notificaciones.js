@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { ListGroup, Spinner, Alert } from 'react-bootstrap';
+import { ListGroup, Spinner, Alert, Button } from 'react-bootstrap';
+
 // Elimina esta línea si 'useAuth' no se usa
 // import useAuth from '../auth/useAuth';
 
-const Notificaciones = () => {
-  // Elimina esta línea si 'user' no se usa
-  // const { user } = useAuth(); 
+const Notificaciones = ({ redirectToMenu }) => { 
+
+  const homeButtonStyle = {
+    width: '200px', // Ajuste al ancho del botón
+    margin: '20px auto', // Centrar el botón y añadir espacio
+    backgroundColor: '#FFA500', // Color amarillo-naranja
+    color: 'white',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontSize: '16px',
+    display: 'block', // Para asegurar que se centre
+  };
 
   const [notificaciones, setNotificaciones] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -65,6 +76,7 @@ const Notificaciones = () => {
           )}
         </ListGroup>
       )}
+      <Button onClick={() => redirectToMenu('profile')} style={homeButtonStyle}>Ir Mi Cuenta</Button>
     </>
   );
 };
