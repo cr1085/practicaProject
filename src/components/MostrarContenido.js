@@ -15,9 +15,17 @@ const MostrarContenido = () => {
   }, [navigate]);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', backgroundColor: '#f8f9fa' }}>
-      <h1>Redirigiendo a la página principal...</h1>
-      <p>Por favor espera un momento.</p>
+    <div style={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      height: '50vh', // Reducir altura del contenedor
+      padding: '20px', 
+      backgroundColor: '#f8f9fa' 
+    }}> 
+      <h1 style={{ fontSize: '1.4em', textAlign: 'center', marginBottom: '5px' }}>Redirigiendo a la página principal...</h1>
+      <p style={{ fontSize: '1.2em', textAlign: 'center' }}>Por favor espera un momento.</p>
     </div>
   );
 };
