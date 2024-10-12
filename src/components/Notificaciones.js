@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { ListGroup, Spinner, Alert } from 'react-bootstrap';
-import useAuth from '../auth/useAuth'; 
+// Elimina esta línea si 'useAuth' no se usa
+// import useAuth from '../auth/useAuth';
 
 const Notificaciones = () => {
-  const { user } = useAuth(); 
+  // Elimina esta línea si 'user' no se usa
+  // const { user } = useAuth(); 
+
   const [notificaciones, setNotificaciones] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -26,7 +29,6 @@ const Notificaciones = () => {
         setLoading(false);
       }
     };
-
     fetchNotificaciones();
   }, []);
 
@@ -44,7 +46,6 @@ const Notificaciones = () => {
           }
         `}
       </style>
-      
       {loading ? (
         <Spinner animation="border" role="status">
           <span className="sr-only"></span>

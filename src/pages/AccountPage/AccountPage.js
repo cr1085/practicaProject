@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import useAuth from '../../auth/useAuth';
 import Footer from '../../components/Footer';
-import EditarPerfil from '../../components/Edit_profile';
+
 import Sidebar from '../../components/Sidebar/Sidebar';
 import CambiarContraseña from '../../components/CambiarContraseña';
 import Calendario from '../../components/Calendario';
 import Notificaciones from '../../components/Notificaciones';
 import MostrarContenido from '../../components/MostrarContenido';
+import EditarPerfil from './Component/Edit_profile';
 
 const AccountPage = () => {
   const { user } = useAuth();
