@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import Sidebar from '../../components/Sidebar/Sidebar';
+import { Container, Row, Col, Card} from "react-bootstrap";
 import useAuth from '../../auth/useAuth';
 import Footer from '../../components/Footer';
-import EditarPerfil from '../../components/Edit_profile';
+import EditarPerfil from './Component/Edit_profile';
+import Sidebar from './Component/Sidebar';
 
 const AccountPage = () => {
   const { user } = useAuth();
