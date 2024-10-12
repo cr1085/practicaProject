@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import routes from '../helpers/routes';
 
 const MostrarContenido = () => {
   const navigate = useNavigate();
@@ -7,7 +8,7 @@ const MostrarContenido = () => {
   useEffect(() => {
     // Simula un pequeño retraso antes de redirigir a la página principal
     const timer = setTimeout(() => {
-      navigate('/'); // Redirige a la página principal después de 2 segundos
+      navigate(routes.monitorias); // Redirige a la página principal después de 2 segundos
     }, 2000);
 
     // Limpia el temporizador cuando el componente se desmonte
