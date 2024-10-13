@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../auth/useAuth";
+import useAuth from "../auth/useAuth";
 import routes from "../helpers/routes";
 
 export default function LoginPage() {
@@ -85,7 +85,7 @@ export default function LoginPage() {
 
   return (
     <div style={containerStyle}>
-      <img src="https://via.placeholder.com/150" alt="Logo" style={logoStyle} />
+      <img src="/img/imglogin.png" alt="Logo" style={logoStyle} />
       <form style={formStyle} onSubmit={handleSubmit}>
         <h1>Iniciar Sesión</h1>
         {error && <p style={errorStyle}>{error}</p>}
