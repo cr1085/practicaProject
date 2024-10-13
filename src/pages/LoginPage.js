@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
-
+import { useAuth } from "../auth/useAuth";
 import routes from "../helpers/routes";
-import useAuth from '../auth/useAuth';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -14,6 +13,7 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(''); // Reset error message
     if (!email || !password) {
       setError('Por favor, complete todos los campos');
       return;
@@ -31,7 +31,9 @@ export default function LoginPage() {
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
-    backgroundColor: '#f0f2f5',
+    backgroundColor: '#282c34',
+    flexDirection: 'column',
+    padding: '20px',
   };
 
   const formStyle = {
@@ -69,14 +71,24 @@ export default function LoginPage() {
     textAlign: 'left',
     marginBottom: '5px',
     fontWeight: 'bold',
-    color: '#555',
+    color: '#333',
+  };
+
+  const logoStyle = {
+    marginBottom: '20px',
+  };
+
+  const errorStyle = {
+    color: 'red',
+    marginBottom: '10px',
   };
 
   return (
     <div style={containerStyle}>
+      <img src="https://via.placeholder.com/150" alt="Logo" style={logoStyle} />
       <form style={formStyle} onSubmit={handleSubmit}>
         <h1>Iniciar Sesión</h1>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p style={errorStyle}>{error}</p>}
         <div>
           <label style={labelStyle}>Email</label>
           <input
