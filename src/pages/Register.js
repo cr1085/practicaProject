@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import useAuth from "../auth/useAuth";
+import React, { useState } from 'react'; 
+import { useNavigate, useLocation } from 'react-router-dom';
+import useAuth from "../auth/useAuth"; 
 import routes from "../helpers/routes";
+import { getAuth, fetchSignInMethodsForEmail } from 'firebase/auth';
 
 export default function Register() {
   const [email, setEmail] = useState('');
@@ -9,27 +10,59 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { register } = useAuth(); // Asegúrate de que la función 'register' esté disponible en useAuth.
+  const location = useLocation(); // Para manejar redirección desde un lugar específico
+  const { register } = useAuth(); // Asegúrate de que register esté disponible desde useAuth.
+
+  // Función para verificar si el correo ya está registrado en Firebase
+  const checkEmailInUse = async (email) => {
+    const auth = getAuth();
+    try {
+      const methods = await fetchSignInMethodsForEmail(auth, email);
+      return methods.length > 0; // Si el array tiene elementos, el correo ya está registrado
+    } catch (error) {
+      console.error('Error al verificar el correo', error);
+      return false;
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Reset error message
+    setError(''); // Reiniciar mensaje de error
+
+    // Verificar si los campos están vacíos
     if (!email || !password || !confirmPassword) {
       setError('Por favor, complete todos los campos');
       return;
     }
+
+    // Verificar que las contraseñas coincidan
     if (password !== confirmPassword) {
       setError('Las contraseñas no coinciden');
       return;
     }
+
+    // Verificar si el correo electrónico ya está registrado
+    const isEmailInUse = await checkEmailInUse(email);
+    if (isEmailInUse) {
+      setError('El correo electrónico ya está en uso');
+      return;
+    }
+
     try {
-      await register(email, password); // Supongamos que 'register' es una función en useAuth.
-      navigate(routes.monitorias); // O la página a la que desees redirigir al registrarse.
+      // Intentar registrar al usuario
+      await register(email, password); 
+      navigate(routes.monitorias); // Redirigir después de un registro exitoso
     } catch (err) {
-      setError('Error al registrarse');
+      // Manejar el error si ocurre durante el registro
+      if (err.code === 'auth/email-already-in-use') {
+        setError('El correo electrónico ya está registrado');
+      } else {
+        setError('Error al registrarse');
+      }
     }
   };
 
+  // Estilos proporcionados
   const containerStyle = {
     display: 'flex',
     justifyContent: 'center',

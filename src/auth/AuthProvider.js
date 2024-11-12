@@ -1,67 +1,53 @@
-import { createContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; 
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
-import roles from "../helpers/roles";
+import React, { createContext, useState, useEffect } from 'react';
+import { auth, db } from '../firebase'; 
+import { onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 
+// Crear el contexto de autenticación
 export const AuthContext = createContext();
 
-export default function AuthProvider({ children }) {
-    const navigate = useNavigate();
-    const [user, setUser] = useState(null);
-    const auth = getAuth();
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [isOffline, setIsOffline] = useState(!navigator.onLine); // Estado para verificar si estamos offline
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                setUser({
-                    id: user.uid,
-                    name: user.displayName || "Usuario",
-                    email: user.email,
-                    pais: "Colombia", // Puedes personalizar esto según tus necesidades
-                    ciudad: "Sincelejo", // Puedes personalizar esto según tus necesidades
-                    role: roles.regular
-                });
-            } else {
-                setUser(null);
-            }
-        });
-        return () => unsubscribe();
-    }, [auth]);
+  // Detectar cambios en la conectividad
+  useEffect(() => {
+    const handleOnlineStatus = () => setIsOffline(!navigator.onLine);
+    window.addEventListener('online', handleOnlineStatus);
+    window.addEventListener('offline', handleOnlineStatus);
 
-    const login = async (email, password, fromLocation) => {
-        try {
-            await signInWithEmailAndPassword(auth, email, password);
-            if (fromLocation) {
-                navigate(fromLocation, { replace: true });
-            }
-        } catch (error) {
-            console.error("Error al iniciar sesión:", error.message);
+    return () => {
+      window.removeEventListener('online', handleOnlineStatus);
+      window.removeEventListener('offline', handleOnlineStatus);
+    };
+  }, []);
+
+  // Verificar el estado de autenticación y obtener datos adicionales desde Firestore
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        const userRef = doc(db, 'users', currentUser.uid);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          setUser({ ...currentUser, ...userDoc.data() });
+        } else {
+          setUser(currentUser);
         }
-    };
+      } else {
+        setUser(null);
+      }
+    });
 
-    const logout = async () => {
-        try {
-            await signOut(auth);
-            setUser(null);
-        } catch (error) {
-            console.error("Error al cerrar sesión:", error.message);
-        }
-    };
+    return () => unsubscribe();
+  }, []);
 
-    const isLogged = () => !!user;
-    const hasRole = (role) => user?.role === role;
+  const isLogged = () => {
+    return user !== null;
+  };
 
-    const contextValue = {
-        user,
-        isLogged,
-        hasRole,
-        login,
-        logout,
-    };
-
-    return (
-        <AuthContext.Provider value={contextValue}>
-            {children}
-        </AuthContext.Provider>
-    );
-}
+  return (
+    <AuthContext.Provider value={{ user, isOffline, isLogged }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};

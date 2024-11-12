@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "./AuthProvider";
 
-export default function useAuth(){
-    
-    return useContext(AuthContext);
+// Aquí solo se extraen las funciones y el estado del contexto
+export default function useAuth() {
+  return useContext(AuthContext);
 }

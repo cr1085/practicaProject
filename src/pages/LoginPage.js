@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
+import { auth } from '../firebase'; // Importa solo `auth` desde la configuración de Firebase
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"; // Importa módulos específicos de Firebase Auth
+import { FaGoogle } from 'react-icons/fa'; // Importa el icono de Google
 import useAuth from "../auth/useAuth";
 import routes from "../helpers/routes";
 
@@ -11,9 +14,23 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
+  // Maneja el inicio de sesión con Google
+  const handleGoogleLogin = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log(result.user); // Usuario autenticado
+        navigate(routes.monitorias); // Redirige tras inicio de sesión exitoso
+      })
+      .catch((error) => {
+        console.error("Error en la autenticación", error);
+        setError("Error en la autenticación con Google: " + error.message); // Agregar detalles del error
+      });
+  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Reset error message
+    setError(''); // Reiniciar mensaje de error
     if (!email || !password) {
       setError('Por favor, complete todos los campos');
       return;
@@ -66,6 +83,21 @@ export default function LoginPage() {
     fontSize: '16px',
   };
 
+  const googleButtonStyle = {
+    width: 'auto', // Ajusta al tamaño necesario
+    padding: '8px 16px', // Haciendo el padding más pequeño
+    backgroundColor: '#db4437', // Color de Google
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontSize: '14px', // Haciendo el tamaño de la fuente más pequeño
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '10px',
+  };
+
   const labelStyle = {
     display: 'block',
     textAlign: 'left',
@@ -111,6 +143,11 @@ export default function LoginPage() {
         </div>
         <button type="submit" style={buttonStyle}>Iniciar Sesión</button>
       </form>
+
+      {/* Botón de inicio de sesión con Google */}
+      <button onClick={handleGoogleLogin} style={googleButtonStyle}>
+        <FaGoogle style={{ marginRight: '8px' }} /> Iniciar sesión con Google
+      </button>
     </div>
   );
 }
